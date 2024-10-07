@@ -21,6 +21,10 @@ class _HomePageState extends State<HomePage> {
   Duration duration = Duration.zero;
   Duration position = Duration.zero;
 
+  // String audioPath = "https://filesamples.com/samples/audio/mp3/sample3.mp3";
+  String audioPath =
+      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +41,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         duration = newDuration;
       });
+      print("Audio Duration: ${newDuration.inSeconds}");
     });
 
     // Listen for changes to the position of the audio
@@ -51,6 +56,18 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     audioPlayer.dispose();
     super.dispose();
+  }
+
+  void playAudio() async {
+    try {
+      await audioPlayer.play(UrlSource(audioPath));
+    } catch (e) {
+      print("Error playing audio: $e");
+    }
+  }
+
+  void pauseAudio() async {
+    await audioPlayer.pause();
   }
 
   @override
@@ -425,210 +442,215 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             spaceHeight(10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: primaryC_800,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Playing now",
-                            style: textCustom(whiteC, 17, FontWeight.w700),
-                          ),
-                          spaceHeight(5),
-                          Text(
-                            "Seamless (feat. ke...",
-                            style: textCustom(whiteC, 14, FontWeight.w300),
-                          ),
-                          Text(
-                            "Virtual Riot",
-                            style:
-                                textCustom(primaryC_200, 13, FontWeight.w300),
-                          ),
-                          spaceHeight(10),
-                          Row(
-                            children: [
-                              Text(
-                                DateFormat('HH:mm').format(
-                                  DateTime(0).add(position),
-                                ),
-                                style: textCustom(
-                                    primaryC_200, 10, FontWeight.w300),
-                              ),
-                              spaceWidth(3),
-                              SizedBox(
-                                width: 80,
-                                child: SliderTheme(
-                                  data: SliderTheme.of(context).copyWith(
-                                    thumbShape: const RoundSliderThumbShape(
-                                        enabledThumbRadius: 6),
-                                    trackHeight: 2,
-                                    thumbColor: blueC,
-                                    activeTrackColor: blueC,
-                                    inactiveTrackColor: Colors.grey,
-                                    overlayShape:
-                                        SliderComponentShape.noOverlay,
-                                  ),
-                                  child: Slider(
-                                    min: 0,
-                                    max: duration.inSeconds.toDouble(),
-                                    value: position.inSeconds.toDouble(),
-                                    onChanged: (value) async {},
-                                  ),
-                                ),
-                              ),
-                              spaceWidth(3),
-                              Text(
-                                DateFormat('HH:mm').format(
-                                  DateTime(0).add(duration - position),
-                                ),
-                                style: textCustom(
-                                    primaryC_200, 10, FontWeight.w300),
-                              ),
-                            ],
-                          ),
-                          spaceHeight(10),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 20),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundColor: primaryC_400,
-                                    child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.skip_previous),
-                                      iconSize: 15,
-                                      color: whiteC,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundColor: primaryC_400,
-                                    child: IconButton(
-                                      onPressed: () async {
-                                        if (isPlaying) {
-                                          await audioPlayer.pause();
-                                        } else {
-                                          String url =
-                                              "https://opengameart.org/sites/default/files/Windless%20Slopes.mp3";
-                                          await audioPlayer
-                                              .play(UrlSource(url));
-                                        }
-                                      },
-                                      icon: Icon(isPlaying
-                                          ? Icons.pause
-                                          : Icons.play_arrow),
-                                      iconSize: 15,
-                                      color: whiteC,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 5),
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundColor: primaryC_400,
-                                    child: IconButton(
-                                      onPressed: () {},
-                                      icon: const Icon(Icons.skip_next_sharp),
-                                      iconSize: 15,
-                                      color: whiteC,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                          // SizedBox(
-                          //     height: 43,
-                          //     child: Image.asset("assets/images/music.png"))
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Container(
-                            width: 34,
-                            height: 34,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: primaryC_400,
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              color: whiteC,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: Text(
-                              "86",
-                              style: textCustom(whiteC, 25, FontWeight.w600),
-                            ),
-                          ),
-                          Container(
-                            width: 34,
-                            height: 34,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(40),
-                              color: primaryC_400,
-                            ),
-                            child: const Icon(
-                              Icons.remove,
-                              color: whiteC,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                            child: SizedBox(
-                              height: 106,
-                              child: Image.asset("assets/images/flawer.png"),
-                            ),
-                          ),
-                          Positioned(
-                            left: -10,
-                            top: 35,
-                            child: Container(
-                              width: 34,
-                              height: 34,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(40),
-                                color: primaryC_400,
-                              ),
-                              child: const Icon(
-                                Icons.multitrack_audio,
-                                color: whiteC,
-                              ),
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+            musicCard(context),
             spaceHeight(60)
           ],
+        ),
+      ),
+    );
+  }
+
+  Padding musicCard(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: primaryC_800,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Playing now",
+                    style: textCustom(whiteC, 17, FontWeight.w700),
+                  ),
+                  spaceHeight(5),
+                  Text(
+                    "Seamless (feat. ke...",
+                    style: textCustom(whiteC, 14, FontWeight.w300),
+                  ),
+                  Text(
+                    "Virtual Riot",
+                    style: textCustom(primaryC_200, 13, FontWeight.w300),
+                  ),
+                  spaceHeight(10),
+                  Row(
+                    children: [
+                      Text(
+                        // position.toString(),
+                        DateFormat('mm:ss').format(DateTime(0).add(position)),
+                        style: textCustom(primaryC_200, 10, FontWeight.w300),
+                      ),
+                      spaceWidth(3),
+                      SizedBox(
+                        width: 80,
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            thumbShape: const RoundSliderThumbShape(
+                                enabledThumbRadius: 6),
+                            trackHeight: 2,
+                            thumbColor: blueC,
+                            activeTrackColor: blueC,
+                            inactiveTrackColor: Colors.grey,
+                            overlayShape: SliderComponentShape.noOverlay,
+                          ),
+                          child: Slider(
+                            min: 0,
+                            max: duration.inSeconds > 0
+                                ? duration.inSeconds.toDouble()
+                                : 1,
+                            value: (position.inSeconds <= duration.inSeconds)
+                                ? position.inSeconds.toDouble()
+                                : 0,
+                            onChanged: (value) async {
+                              final newPosition =
+                                  Duration(seconds: value.toInt());
+                              await audioPlayer.seek(newPosition);
+                            },
+                          ),
+                        ),
+                      ),
+                      spaceWidth(3),
+                      Text(
+                        '${(duration - position).inMinutes.remainder(60).toString().padLeft(2, '0')}:${(duration - position).inSeconds.remainder(60).toString().padLeft(2, '0')}',
+                        style: textCustom(primaryC_200, 10, FontWeight.w300),
+                      ),
+                    ],
+                  ),
+                  spaceHeight(10),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: primaryC_400,
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.skip_previous),
+                              iconSize: 15,
+                              color: whiteC,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: primaryC_400,
+                            child: IconButton(
+                              onPressed: () {
+                                if (isPlaying) {
+                                  pauseAudio();
+                                } else {
+                                  playAudio();
+                                }
+                              },
+                              icon: Icon(
+                                  isPlaying ? Icons.pause : Icons.play_arrow),
+                              iconSize: 15,
+                              color: whiteC,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: CircleAvatar(
+                            radius: 15,
+                            backgroundColor: primaryC_400,
+                            child: IconButton(
+                              onPressed: () {
+                                print(position);
+                                print(duration);
+                                // pauseAudio();
+                              },
+                              icon: const Icon(Icons.skip_next_sharp),
+                              iconSize: 15,
+                              color: whiteC,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                  // SizedBox(
+                  //     height: 43,
+                  //     child: Image.asset("assets/images/music.png"))
+                ],
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: primaryC_400,
+                    ),
+                    child: const Icon(
+                      Icons.add,
+                      color: whiteC,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      "86",
+                      style: textCustom(whiteC, 25, FontWeight.w600),
+                    ),
+                  ),
+                  Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      color: primaryC_400,
+                    ),
+                    child: const Icon(
+                      Icons.remove,
+                      color: whiteC,
+                    ),
+                  ),
+                ],
+              ),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    child: SizedBox(
+                      height: 106,
+                      child: Image.asset("assets/images/flawer.png"),
+                    ),
+                  ),
+                  Positioned(
+                    left: -10,
+                    top: 35,
+                    child: Container(
+                      width: 34,
+                      height: 34,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(40),
+                        color: primaryC_400,
+                      ),
+                      child: const Icon(
+                        Icons.multitrack_audio,
+                        color: whiteC,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
