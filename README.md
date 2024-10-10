@@ -1,16 +1,10 @@
-# electric_car_mobile_app
-
-A new Flutter project.
+# travelling_app
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. git clone https://github.com/Rhomaedy1201/Electric-Car-Mobile-App.git
+2. open to your text editor
+3. flutter pub get
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Result
+<img align="letf" alt="Coding" src="https://i.postimg.cc/7hTk3PgL/electric-car-mobile-app.jpg">
